@@ -7,7 +7,7 @@ let crates = require('fs').readFileSync('input', 'utf-8').split(/\r?\n/),
 crates = crates.map(l => l.replaceAll('    ', ' ').split(' '))
 const nbPiles = crates.pop().join('').at(-1) //eww, ikr ?
 for(let i = 0; i < nbPiles - crates.length; i++) crates.unshift([])  //make crates matrix square so we can rotate it
-crates = crates.map((_, index) => crates.map(row => row[index]).reverse().filter(e => !!e)) //rotate and filter crates matrix
+crates = crates.map((_, index) => crates.map(row => row[index]).reverse().filter(e => !!e)) //rotate and filter crates matrix, stolen from https://stackoverflow.com/a/58668351
 for(let step of steps){
     for (let i = 0; i< step[0]; i++){
         crates[step[2]].push(crates[step[1]].pop())
