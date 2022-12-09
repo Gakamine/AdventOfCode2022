@@ -1,5 +1,5 @@
 let headPos = [0,0],
- knotPositions = Array(9).fill().map((e) => e = [0,0])
+ knotPositions = Array(...Array(9)).map(() => [0,0]),
  visited = [[0,0]]
 require('fs').readFileSync('../example2', 'utf-8').split(/\r?\n/)
     .map(([direction, _, ...displacement]) => {
