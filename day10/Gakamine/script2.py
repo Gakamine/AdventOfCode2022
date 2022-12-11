@@ -1,19 +1,27 @@
 file = open("input", "r")
 x=1
-cycle=1
+cursor=1
+crt=""
+def draw(x,crt,cursor):
+    sprite_pos=[i for i in range(x,x+3)]
+    if cursor in sprite_pos:
+        crt+="X"
+    else:
+        crt+=" "
+    if cursor>39:
+        crt+="|\n"
+        cursor=1
+    else:
+        cursor+=1
+    return crt,cursor
 
-def clock_tick(current_cycle,signal,x):
-    cycles=[20,60,100,140,180,220]
-    if current_cycle in cycles:
-        signal+=(x*cycle)
-    return (current_cycle+1,signal)
 
 for line in file:
     line=line.strip().split(" ")
     if line[0]=="noop":
-        cycle,signal=clock_tick(cycle,signal,x)
+        crt,cursor=draw(x,crt,cursor)
     elif line[0]=="addx":
-        cycle,signal=clock_tick(cycle,signal,x)
-        cycle,signal=clock_tick(cycle,signal,x)
+        crt,cursor=draw(x,crt,cursor)
+        crt,cursor=draw(x,crt,cursor)
         x+=int(line[1])
-
+print(crt)
