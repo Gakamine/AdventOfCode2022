@@ -1,9 +1,8 @@
-let isOrdered = (left, right) => {
-    // console.log(left[0], right[0] )
-    switch ([!left[0], !right[0]].join(), isInternal=false) { //handle undefined
-        case 'true,true': return true
+let isOrdered = (left, right, isInternal = false) => {
+    switch ([left[0]===undefined, right[0]===undefined].join()) { //handle undefined
+        case 'true,true': return isInternal ? 'idk' : true
         case 'true,false': return true
-        case 'false,true': return isInternal ? 'idk' : false
+        case 'false,true': return  false
     }
     switch ([typeof(left[0]), typeof(right[0])].join()) {
         case 'number,number':
@@ -23,7 +22,6 @@ console.log(
         let [left, right] = l.split(/\r?\n/)  
         left = eval(left)
         right = eval(right)
-        // console.log('---', isOrdered(left, right))
         return isOrdered(left, right)
     }).reduce((a, b, i) => b? a+i+1 : a, 0)
 )
