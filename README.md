@@ -7,3 +7,7 @@ https://adventofcode.com/
 ## Contributors:
 * [Gakamine](https://github.com/Gakamine)
 * [rgroise](https://github.com/rgroise)
+
+# WARNING: (rgroise)
+For some of those scripts i used eval() out of laziness to make parsing faster.
+This is of course EXTREMELY unsafe if used with a malicious input, so make sure that you got the right one if you're gonna run them.
