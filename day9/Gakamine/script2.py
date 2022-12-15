@@ -21,12 +21,13 @@ def update_pos(direction,knots,prev_pos):
                 knots[knot]=[knots[knot][0],knots[knot][1]+int(diff[1]/abs(diff[1]))]
                 if diff[0] != 0 and [knots[knot][0]+int(diff[0]/abs(diff[0])),knots[knot][1]]:
                     knots[knot]=[knots[knot][0]+int(diff[0]/abs(diff[0])),knots[knot][1]]
-
+            elif abs(diff[0])==abs(diff[1]):
+                knots[knot]=[knots[knot][0]+int(diff[0]/abs(diff[0])),knots[knot][1]+int(diff[1]/abs(diff[1]))]
     if knots[-1] not in prev_pos:
         prev_pos.append(knots[-1])
     return knots,prev_pos
 
-file = open("../example2","r")
+file = open("input","r")
 prev_pos=[[0,0]]
 knots=list(repeat([0,0], 10))
 for line in file:
