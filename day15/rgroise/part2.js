@@ -4,29 +4,29 @@ const mannathan = (vec1, vec2) => Math.abs(vec1[0] - vec2[0]) + Math.abs(vec1[1]
         l.split(':').map(s => s.split(',').map(s => +s.split('=').at(-1)))
     ),
  sensors = parsed.map(([vec1, vec2]) => [...vec1, mannathan(vec1, vec2)]),
- boundary = 4000000
-//  boundary = 20
+  boundary = 4000000
 
-let excluded = []
-for(i = 0; i < boundary+1; i++) excluded.push(new Set())
-
-sensors.forEach(([x, y, d], n) => {
-  console.log(n/sensors.length*100 + '%')
-  for(let i = (x-d < 0 ? 0 : x-d) ; i <= (x+d > boundary ? boundary : x+d); i++) {
-    for(let j = (y-d < 0 ? 0 : y-d) ; j <= (y+d > boundary ? boundary : y+d); j++) {
-      if(mannathan([x, y], [i, j]) <= d) excluded[i].add(j)
-    }
-  }
-})
-
-for(let i = 0; i <= boundary; i++) {
-  console.log(i/boundary*100 + '%')
-  if(excluded[i].size < boundary + 1){
-    for(let j = 0; j <= boundary; j++) {
-      if(!excluded[i].has(j)) {
-        console.log(i*4000000+j)
-        process.exit()
-      }
-    }
-  }
+const checkSurroundings = (x, y) =>{
+  const check = (x, y) => sensors.some(([x1, y1, d]) => mannathan([x1, y1], [x, y]) <= d) ? undefined : [x, y]
+  return check(x-1, y) || check(x+1, y) || check(x, y-1) || check(x, y+1)
 }
+
+const getPermimeter = ([x, y, d]) => {
+  let [i, j] = [x+d, y]
+  let permimeter = []
+  while(i > x) permimeter.push([--i, ++j])
+  while(j > y) permimeter.push([--i, --j])
+  while(i < x) permimeter.push([++i, --j])
+  while(j < y) permimeter.push([++i, ++j])
+  return permimeter
+}
+
+sensors.forEach((sensor, n) => {
+  getPermimeter(sensor).forEach(([i, j]) => {
+    let check = checkSurroundings(i, j)
+    if(!!check && check[0] >= 0 && check[1] >= 0 && check[0] <= boundary && check[1] <= boundary) {
+      console.log(check[0]*4000000+check[1])
+      process.exit()
+    }
+  })
+})
